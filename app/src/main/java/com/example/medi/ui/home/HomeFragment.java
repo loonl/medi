@@ -1,13 +1,21 @@
 package com.example.medi.ui.home;
 
+import android.content.DialogInterface;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -15,18 +23,91 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.medi.R;
 import com.example.medi.databinding.FragmentHomeBinding;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
     private FragmentHomeBinding binding;
+    private TextView text_home_date;
+    private Button btn_home_add;
+    private Button btn_home_del;
+    private LinearLayout layout_home_checklist;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
 
+
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        // declaration
+        text_home_date = root.findViewById(R.id.text_date);
+        btn_home_add = root.findViewById(R.id.btn_add);
+        btn_home_del = root.findViewById(R.id.btn_del);
+        layout_home_checklist = root.findViewById(R.id.layout_checklist);
+
+        // custom
+        long now = System.currentTimeMillis();
+        Date date = new Date(now);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일");
+        String getTime = sdf.format(date);
+        text_home_date.setText(getTime);
+
+        // custom2
+        btn_home_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final EditText edittext = new EditText(getActivity());
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("약의 이름을 입력해주세요.").setMessage("BETA");
+                builder.setView(edittext);
+                builder.setPositiveButton("추가", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        CheckBox cb = new CheckBox(getActivity());
+                        cb.setText(edittext.getText().toString());
+                        cb.setPaintFlags( cb.getPaintFlags() & (~ Paint.UNDERLINE_TEXT_FLAG));
+                        cb.setTextSize(20);
+
+                        cb.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                CheckBox cbx = (CheckBox) v;
+                                if (cbx.isChecked()) {
+                                    cbx.setPaintFlags(cbx.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                                }
+                                else {
+                                    cbx.setPaintFlags(0);
+                                }
+                            }
+                        });
+
+                        layout_home_checklist.addView(cb);
+                    }
+                });
+                builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // nothing to do
+                    }
+                });
+
+                builder.show();
+
+            }
+        });
+
+        // custom3
+        btn_home_del.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO
+            }
+        });
 
         final TextView textView = binding.textHome;
         homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
