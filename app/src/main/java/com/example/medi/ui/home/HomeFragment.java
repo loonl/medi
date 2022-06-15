@@ -47,7 +47,6 @@ public class HomeFragment extends Fragment {
         // declaration
         text_home_date = root.findViewById(R.id.text_date);
         btn_home_add = root.findViewById(R.id.btn_add);
-        btn_home_del = root.findViewById(R.id.btn_del);
         layout_home_checklist = root.findViewById(R.id.layout_checklist);
 
         // custom
@@ -63,7 +62,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 final EditText edittext = new EditText(getActivity());
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle("약의 이름을 입력해주세요.").setMessage("BETA");
+                builder.setTitle("약의 이름을 입력해주세요.");
                 builder.setView(edittext);
                 builder.setPositiveButton("추가", new DialogInterface.OnClickListener() {
                     @Override
@@ -86,6 +85,33 @@ public class HomeFragment extends Fragment {
                             }
                         });
 
+                        cb.setOnLongClickListener(new View.OnLongClickListener() {
+                            @Override
+                            public boolean onLongClick(View view) {
+                                AlertDialog.Builder adg = new AlertDialog.Builder(getActivity());
+                                adg.setTitle("삭제").setMessage("이 약을 삭제하시겠습니까?");
+
+                                adg.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        // do nothing
+                                    }
+                                });
+
+                                adg.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        layout_home_checklist.removeView(cb);
+                                        Toast.makeText(getActivity(), "삭제가 완료되었습니다.", Toast.LENGTH_LONG).show();
+                                    }
+                                });
+
+                                adg.show();
+                                return false;
+                            }
+                        });
+
+
                         layout_home_checklist.addView(cb);
                     }
                 });
@@ -98,14 +124,6 @@ public class HomeFragment extends Fragment {
 
                 builder.show();
 
-            }
-        });
-
-        // custom3
-        btn_home_del.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // TODO
             }
         });
 
