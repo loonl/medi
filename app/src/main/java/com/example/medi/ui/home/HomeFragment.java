@@ -67,8 +67,6 @@ public class HomeFragment extends Fragment {
 
         // 2. first execution - load medicine lists
         if (first_execute) {
-            // todo
-            Toast.makeText(getActivity(), "debug = first execute", Toast.LENGTH_LONG).show();
             ArrayList<String> medi_lists = m_PreferenceManager.getStringArrayList(getActivity(), "medi_list");
             ArrayList<Boolean> medi_checks = m_PreferenceManager.getBoolArrayList(getActivity(), "medi_check");
 
@@ -83,6 +81,7 @@ public class HomeFragment extends Fragment {
                 cb.setTextSize(20);
                 if (medi_check && !date_changed) {
                     cb.setChecked(true);
+                    cb.setPaintFlags(cb.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                 }
 
                 cb.setOnClickListener(new View.OnClickListener() {
