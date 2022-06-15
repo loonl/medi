@@ -20,9 +20,11 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.medi.MainActivity;
 import com.example.medi.R;
 import com.example.medi.databinding.FragmentHomeBinding;
 import com.example.medi.m_PreferenceManager;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,7 +38,7 @@ public class HomeFragment extends Fragment {
     private Button btn_home_add;
     private Button btn_home_del;
     private LinearLayout layout_home_checklist;
-    boolean first_execute = true;
+    private boolean first_execute = true;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -44,6 +46,11 @@ public class HomeFragment extends Fragment {
                 new ViewModelProvider(this).get(HomeViewModel.class);
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        try {
+            FloatingActionButton fab = getActivity().findViewById(R.id.fab);
+            fab.show();
+        } catch(Exception e) {}
 
         // declaration
         text_home_date = root.findViewById(R.id.text_date);

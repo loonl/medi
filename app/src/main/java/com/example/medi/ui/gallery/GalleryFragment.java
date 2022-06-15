@@ -12,8 +12,10 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.medi.MainActivity;
 import com.example.medi.R;
 import com.example.medi.databinding.FragmentGalleryBinding;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class GalleryFragment extends Fragment {
 
@@ -28,7 +30,9 @@ public class GalleryFragment extends Fragment {
         binding = FragmentGalleryBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        // declaration
+        // fab button
+        FloatingActionButton fab = getActivity().findViewById(R.id.fab);
+        fab.hide();
 
         final TextView textView = binding.textGallery;
         galleryViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {

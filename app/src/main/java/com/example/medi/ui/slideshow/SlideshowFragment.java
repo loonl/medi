@@ -12,8 +12,10 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.medi.MainActivity;
 import com.example.medi.R;
 import com.example.medi.databinding.FragmentSlideshowBinding;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class SlideshowFragment extends Fragment {
 
@@ -28,13 +30,9 @@ public class SlideshowFragment extends Fragment {
         binding = FragmentSlideshowBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-//        final TextView textView = binding.textSlideshow;
-//        slideshowViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-//            @Override
-//            public void onChanged(@Nullable String s) {
-//                textView.setText(s);
-//            }
-//        });
+        FloatingActionButton fab = getActivity().findViewById(R.id.fab);
+        fab.hide();
+
         return root;
     }
 
