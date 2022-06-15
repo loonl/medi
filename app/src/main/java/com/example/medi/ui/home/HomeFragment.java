@@ -201,12 +201,9 @@ public class HomeFragment extends Fragment {
                                 adg.setPositiveButton("예", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
-                                        ArrayList<String> medi_lists = m_PreferenceManager.getStringArrayList(getActivity(), "medi_list");
-                                        ArrayList<Boolean> medi_checks = m_PreferenceManager.getBoolArrayList(getActivity(), "medi_check");
-                                        Toast.makeText(getActivity(), medi_lists.indexOf(cb.getText().toString()), Toast.LENGTH_LONG).show();
-                                        int idx = medi_lists.indexOf(cb.getText().toString());
-                                        medi_lists.remove(idx);
-                                        medi_checks.remove(idx);
+                                        int index = medi_lists.indexOf(cb.getText().toString());
+                                        medi_lists.remove(index);
+                                        medi_checks.remove(index);
                                         m_PreferenceManager.setStringArrayList(getActivity(), "medi_list", medi_lists);
                                         m_PreferenceManager.setBoolArrayList(getActivity(), "medi_check", medi_checks);
                                         layout_home_checklist.removeView(cb);
