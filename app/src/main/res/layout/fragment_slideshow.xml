@@ -43,6 +43,7 @@
             android:layout_height="wrap_content"
             android:textSize="23sp"
             android:textColor="#000000"
+            android:layout_marginBottom = "10dp"
             android:text="• 약 알림 앱이 어떻게 도움이 되나요?" />
 
         <TextView
@@ -68,6 +69,7 @@
             android:layout_height="wrap_content"
             android:textSize="23sp"
             android:textColor="#000000"
+            android:layout_marginBottom = "10dp"
             android:text="• 약 챙겨먹는 걸 까먹었는데 어떻게 하나요?" />
 
         <TextView
@@ -92,6 +94,7 @@
             android:layout_height="wrap_content"
             android:textSize="23sp"
             android:textColor="#000000"
+            android:layout_marginBottom = "10dp"
             android:text="• 약을 먹고 난 뒤 부작용이 일어났습니다." />
 
         <TextView
@@ -115,6 +118,7 @@
             android:layout_height="wrap_content"
             android:textSize="23sp"
             android:textColor="#000000"
+            android:layout_marginBottom = "10dp"
             android:text="• 쓴 약은 주스와 함께 먹어도 될까요?" />
 
         <TextView
@@ -147,6 +151,7 @@
             android:layout_height="wrap_content"
             android:textSize="23sp"
             android:textColor="#000000"
+            android:layout_marginBottom = "10dp"
             android:text="• 물 없이 약을 복용해도 괜찮을까요?" />
 
         <TextView
@@ -161,9 +166,9 @@
             android:id="@+id/textView20"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:text=""
             android:textColor="#000000"
-            android:text="" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/textView21"
@@ -171,6 +176,7 @@
             android:layout_height="wrap_content"
             android:textSize="23sp"
             android:textColor="#000000"
+            android:layout_marginBottom = "10dp"
             android:text="• 올바른 약 복용법에 대해 알려주세요." />
 
         <TextView
@@ -195,6 +201,7 @@
             android:layout_height="wrap_content"
             android:textSize="23sp"
             android:textColor="#000000"
+            android:layout_marginBottom = "10dp"
             android:text="• 약 복용 시 주의사항을 알려주세요." />
 
         <TextView

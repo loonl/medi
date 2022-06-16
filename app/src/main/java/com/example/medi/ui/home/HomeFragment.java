@@ -133,7 +133,7 @@ public class HomeFragment extends Fragment {
                                 m_PreferenceManager.setStringArrayList(getActivity(), "medi_list", medi_lists);
                                 m_PreferenceManager.setBoolArrayList(getActivity(), "medi_check", medi_checks);
                                 layout_home_checklist.removeView(cb);
-                                Toast.makeText(getActivity(), "삭제가 완료되었습니다.", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getActivity(), "삭제가 완료되었습니다.", Toast.LENGTH_SHORT).show();
                             }
                         });
 
@@ -214,7 +214,7 @@ public class HomeFragment extends Fragment {
                                         m_PreferenceManager.setStringArrayList(getActivity(), "medi_list", medi_lists);
                                         m_PreferenceManager.setBoolArrayList(getActivity(), "medi_check", medi_checks);
                                         layout_home_checklist.removeView(cb);
-                                        Toast.makeText(getActivity(), "삭제가 완료되었습니다.", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getActivity(), "삭제가 완료되었습니다.", Toast.LENGTH_SHORT).show();
                                     }
                                 });
 
