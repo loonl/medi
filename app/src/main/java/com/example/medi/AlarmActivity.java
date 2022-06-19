@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Switch;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -23,6 +24,10 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 
 public class AlarmActivity extends AppCompatActivity {
+    private Button alarminitButton;
+    private Button alarmButton;
+    private Integer requestCode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +37,12 @@ public class AlarmActivity extends AppCompatActivity {
         picker.setIs24HourView(true);
 
         setTitle("약 복용시간 알림 설정");
+
+        alarmButton = (Button)findViewById(R.id.alarm_button_set);
+        alarminitButton = (Button)findViewById(R.id.alarm_button_unset);
+        requestCode = m_PreferenceManager.getRequestCode(getApplicationContext());
+        //debug
+        //Toast.makeText(getApplicationContext(),"requestCode : " + requestCode, Toast.LENGTH_SHORT).show();
 
 
         // 앞서 설정한 값으로 보여주기
@@ -43,7 +54,7 @@ public class AlarmActivity extends AppCompatActivity {
         nextNotifyTime.setTimeInMillis(millis);
 
         Date nextDate = nextNotifyTime.getTime();
-        String date_text = new SimpleDateFormat("yyyy년 MM월 dd일 EE요일 a hh시 mm분 ", Locale.getDefault()).format(nextDate);
+        String date_text = new SimpleDateFormat("yyyy년 MM월 dd일 a hh시 mm분 ", Locale.getDefault()).format(nextDate);
 
 
         // 이전 설정값으로 TimePicker 초기화
@@ -65,8 +76,8 @@ public class AlarmActivity extends AppCompatActivity {
         }
 
 
-        Button button = (Button) findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
+        // alarmButton onClick Handler
+        alarmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
 
@@ -111,29 +122,46 @@ public class AlarmActivity extends AppCompatActivity {
                 editor.putLong("nextNotifyTime", (long)calendar.getTimeInMillis());
                 editor.apply();
 
-
-                diaryNotification(calendar);
+                diaryNotification(calendar, requestCode);
+                requestCode++;
             }
 
+        });
+
+        // alarminitButton onClick Handler
+        alarminitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                Intent alarmIntent = new Intent(getApplicationContext(), AlarmReceiver.class);
+
+                for (int i = 0; i < requestCode; i++) {
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),
+                            i, alarmIntent, 0);
+                    alarmManager.cancel(pendingIntent);
+                }
+                requestCode = 0;
+                m_PreferenceManager.setRequestCode(getApplicationContext(), requestCode);
+                Toast.makeText(getApplicationContext(),"모든 알람이 해제되었습니다.", Toast.LENGTH_SHORT).show();
+
+            }
         });
     }
 
 
-    void diaryNotification(Calendar calendar)
+    void diaryNotification(Calendar calendar, Integer requestCode)
     {
         Boolean dailyNotify = true; // 무조건 알람을 사용
 
         PackageManager pm = this.getPackageManager();
         ComponentName receiver = new ComponentName(this, DeviceBootReceiver.class);
         Intent alarmIntent = new Intent(this, AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, requestCode, alarmIntent, 0);
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-
+        m_PreferenceManager.setRequestCode(this, requestCode + 1);
 
         // 사용자가 매일 알람을 허용했다면
         if (dailyNotify) {
-
-
             if (alarmManager != null) {
 
                 alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),

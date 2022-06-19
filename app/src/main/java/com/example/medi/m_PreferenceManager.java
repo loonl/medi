@@ -35,6 +35,8 @@ public class m_PreferenceManager {
         editor.commit();
     }
 
+
+
     /**
      * SimpleDateFormat 값 로드
      * @param context
@@ -49,6 +51,38 @@ public class m_PreferenceManager {
             return "";
         Type type = new TypeToken<String>(){}.getType();
         String value = gson.fromJson(response, type);
+        return value;
+    }
+
+    /**
+     * RequestCode 저장
+     * @param context
+     * @param value
+     */
+    public static void setRequestCode(Context context, Integer value) {
+        String key = "requestCode";
+        SharedPreferences prefs = getPreferences(context);
+        SharedPreferences.Editor editor = prefs.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(value);
+        editor.putString(key, json);
+        editor.commit();
+    }
+
+    /**
+     * RequestCode 값 로드
+     * @param context
+     * @return
+     */
+    public static Integer getRequestCode(Context context) {
+        String key = "requestCode";
+        SharedPreferences prefs = getPreferences(context);
+        Gson gson = new Gson();
+        String response = prefs.getString(key, DEFAULT_VALUE_STRING);
+        if (response.equals(DEFAULT_VALUE_STRING))
+            return 0;
+        Type type = new TypeToken<Integer>(){}.getType();
+        Integer value = gson.fromJson(response, type);
         return value;
     }
 
