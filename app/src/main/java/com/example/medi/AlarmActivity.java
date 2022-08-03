@@ -33,7 +33,7 @@ public class AlarmActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm);
 
-        final TimePicker picker=(TimePicker)findViewById(R.id.alarm_timepicker);
+        final TimePicker picker = (TimePicker)findViewById(R.id.alarm_timepicker);
         picker.setIs24HourView(true);
 
         setTitle("약 복용시간 알림 설정");
@@ -44,27 +44,14 @@ public class AlarmActivity extends AppCompatActivity {
         //debug
         //Toast.makeText(getApplicationContext(),"requestCode : " + requestCode, Toast.LENGTH_SHORT).show();
 
-
-        // 앞서 설정한 값으로 보여주기
-        // 없으면 디폴트 값은 현재시간
-        SharedPreferences sharedPreferences = getSharedPreferences("daily alarm", MODE_PRIVATE);
-        long millis = sharedPreferences.getLong("nextNotifyTime", Calendar.getInstance().getTimeInMillis());
-
-        Calendar nextNotifyTime = new GregorianCalendar();
-        nextNotifyTime.setTimeInMillis(millis);
-
-        Date nextDate = nextNotifyTime.getTime();
-        String date_text = new SimpleDateFormat("yyyy년 MM월 dd일 a hh시 mm분 ", Locale.getDefault()).format(nextDate);
-
-
-        // 이전 설정값으로 TimePicker 초기화
-        Date currentTime = nextNotifyTime.getTime();
+        // 현재 시간으로 TimePicker 시간 초기화
+        Date currentTime = new Date(System.currentTimeMillis());
         SimpleDateFormat HourFormat = new SimpleDateFormat("kk", Locale.getDefault());
         SimpleDateFormat MinuteFormat = new SimpleDateFormat("mm", Locale.getDefault());
 
+
         int pre_hour = Integer.parseInt(HourFormat.format(currentTime));
         int pre_minute = Integer.parseInt(MinuteFormat.format(currentTime));
-
 
         if (Build.VERSION.SDK_INT >= 23 ){
             picker.setHour(pre_hour);
@@ -117,11 +104,6 @@ public class AlarmActivity extends AppCompatActivity {
                 String date_text = new SimpleDateFormat("yyyy년 MM월 dd일 a hh시 mm분 ", Locale.getDefault()).format(currentDateTime);
                 Toast.makeText(getApplicationContext(),date_text + "으로 알람이 설정되었습니다!", Toast.LENGTH_SHORT).show();
 
-                //  Preference에 설정한 값 저장
-                SharedPreferences.Editor editor = getSharedPreferences("daily alarm", MODE_PRIVATE).edit();
-                editor.putLong("nextNotifyTime", (long)calendar.getTimeInMillis());
-                editor.apply();
-
                 diaryNotification(calendar, requestCode);
                 requestCode++;
             }
@@ -137,7 +119,7 @@ public class AlarmActivity extends AppCompatActivity {
 
                 for (int i = 0; i < requestCode; i++) {
                     PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),
-                            i, alarmIntent, 0);
+                            i, alarmIntent, PendingIntent.FLAG_MUTABLE);
                     alarmManager.cancel(pendingIntent);
                 }
                 requestCode = 0;
@@ -156,7 +138,7 @@ public class AlarmActivity extends AppCompatActivity {
         PackageManager pm = this.getPackageManager();
         ComponentName receiver = new ComponentName(this, DeviceBootReceiver.class);
         Intent alarmIntent = new Intent(this, AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, requestCode, alarmIntent, 0);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, requestCode, alarmIntent, PendingIntent.FLAG_MUTABLE);
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         m_PreferenceManager.setRequestCode(this, requestCode + 1);
 
@@ -167,7 +149,7 @@ public class AlarmActivity extends AppCompatActivity {
                 alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                         AlarmManager.INTERVAL_DAY, pendingIntent);
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
                     alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
                 }
             }

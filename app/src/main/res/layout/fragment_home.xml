@@ -22,47 +22,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/text_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="30dp"
-        android:text="날짜 소개"
-        android:textColor="#FF000000"
-        android:textSize="30dp" />
-
-    <ScrollView
-        android:id="@+id/scrview_checklist"
+    <CalendarView
+        android:id="@+id/main_calendar"
         android:layout_width="match_parent"
-        android:layout_margin = "40dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="30dp"
-        android:cacheColorHint="#00000000">
-
-        <LinearLayout
-            android:id="@+id/layout_checklist"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
-    </ScrollView>
-
-    <Button
-        android:id="@+id/btn_add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="30dp"
-        android:text="추가" />
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

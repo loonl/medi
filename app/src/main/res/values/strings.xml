@@ -10,4 +10,13 @@
     <string name="menu_home">복용상태 체크</string>
     <string name="menu_gallery">약품 정보</string>
     <string name="menu_slideshow">FAQ</string>
+    <string name="title_activity_check">CheckActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 </resources>
