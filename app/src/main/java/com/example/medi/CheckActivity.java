@@ -27,6 +27,7 @@ public class CheckActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check);
+        setTitle("복용상태 체크");
 
         text_check_date = findViewById(R.id.text_date);
         btn_check_add = findViewById(R.id.btn_add);
