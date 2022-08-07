@@ -1,23 +1,28 @@
 package com.example.medi.ui.home;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.motion.widget.Debug;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-
 import com.example.medi.CheckActivity;
 import com.example.medi.EventDecorator;
 import com.example.medi.R;
@@ -27,24 +32,24 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
+import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
 import com.prolificinteractive.materialcalendarview.format.TitleFormatter;
-
 import org.threeten.bp.LocalDate;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
-import java.util.concurrent.Executors;
 
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
     private FragmentHomeBinding binding;
     private MaterialCalendarView calendar;
-    private int calendarCurrentMonth;
-    private int calendarCurrentYear;
+
+    private Integer calendarCurrentMonth;
+    private Integer calendarCurrentYear;
+    private ArrayList<CalendarDay> dayFin;
+    private ArrayList<CalendarDay> dayNotFin;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -87,8 +92,8 @@ public class HomeFragment extends Fragment {
         });
 
         // 약 다 먹은 날, 안 먹은 날 구분
-        ArrayList<String> dayFin = new ArrayList<String>();
-        ArrayList<String> dayNotFin = new ArrayList<String>();
+        dayFin = new ArrayList<CalendarDay>();
+        dayNotFin = new ArrayList<CalendarDay>();
         for (int i = 1; i < Calendar.getInstance().get(Calendar.DAY_OF_MONTH); i++) {
             // 캘린더 설정해주고 체크리스트 가져오기
             Calendar cal = Calendar.getInstance();
@@ -107,7 +112,7 @@ public class HomeFragment extends Fragment {
                     }
                 }
 
-                String element = calendarCurrentYear + "," + calendarCurrentMonth + "," + i;
+                CalendarDay element = CalendarDay.from(LocalDate.of(calendarCurrentYear, calendarCurrentMonth, i));
                 if (allchecked)
                     dayFin.add(element);
                 else
@@ -116,8 +121,12 @@ public class HomeFragment extends Fragment {
         }
 
         // 점 찍기
-        new DotMaker(dayFin, Color.GREEN).executeOnExecutor(Executors.newSingleThreadExecutor());
-        new DotMaker(dayNotFin, Color.RED).executeOnExecutor(Executors.newSingleThreadExecutor());
+        calendar.addDecorator(new EventDecorator(Color.GREEN, dayFin, getActivity()));
+        calendar.addDecorator(new EventDecorator(Color.RED, dayNotFin, getActivity()));
+
+        // 밑에서도 써야 해서 미리 clear
+        dayFin.clear();
+        dayNotFin.clear();
 
         // 캘린더 클릭 이벤트
         calendar.setOnDateChangedListener(new OnDateSelectedListener() {
@@ -125,17 +134,76 @@ public class HomeFragment extends Fragment {
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay day, boolean selected) {
 
                 // 클릭된 날짜 담아주기
-                Calendar calendar = Calendar.getInstance();
-                calendar.set(Calendar.YEAR, day.getYear());
-                calendar.set(Calendar.MONTH, day.getMonth() - 1);
-                calendar.set(Calendar.DAY_OF_MONTH, day.getDay());
-                Date date_ = calendar.getTime();
+                Calendar cal = Calendar.getInstance();
+                cal.set(Calendar.YEAR, day.getYear());
+                cal.set(Calendar.MONTH, day.getMonth() - 1);
+                cal.set(Calendar.DAY_OF_MONTH, day.getDay());
+                Date date_ = cal.getTime();
                 String selectedDate = new SimpleDateFormat("yyyy년 MM월 dd일").format(date_);
 
                 // 인텐트에 담아서 CheckActivity로 넘겨주기
                 Intent sendIntent = new Intent(getActivity(), CheckActivity.class);
                 sendIntent.putExtra("selected_date", selectedDate);
                 startActivity(sendIntent);
+            }
+        });
+
+        // 달 바뀌는 이벤트
+        calendar.setOnMonthChangedListener(new OnMonthChangedListener() {
+            @Override
+            public void onMonthChanged(MaterialCalendarView widget, CalendarDay date) {
+                // 변수 업데이트
+                calendarCurrentMonth = date.getMonth();
+                calendarCurrentYear = date.getYear();
+                String str_curMonth = "";
+                if (calendarCurrentMonth < 10)
+                    str_curMonth = "0" + Integer.toString(calendarCurrentMonth);
+                else
+                    str_curMonth = Integer.toString(calendarCurrentMonth);
+
+                int cmp2 = Integer.parseInt(Integer.toString(calendarCurrentYear) + str_curMonth);
+                int now = Integer.parseInt(new SimpleDateFormat("yyyyMM").format(Calendar.getInstance().getTime()));
+
+                // 과거의 시각인 연/월에 대해서만 값을 찍어주면 됨
+                if (now > cmp2) {
+                    // dayFin, dayNotFin 채워주기
+                    Calendar maxDaysCal = Calendar.getInstance();
+                    maxDaysCal.set(Calendar.YEAR, calendarCurrentYear);
+                    maxDaysCal.set(Calendar.MONTH, calendarCurrentMonth);
+                    for (int i = 1; i <= maxDaysCal.getActualMaximum(Calendar.DAY_OF_MONTH); i++) {
+                        // 캘린더 설정해주고 체크리스트 가져오기
+                        Calendar cal = Calendar.getInstance();
+                        cal.set(Calendar.YEAR, calendarCurrentYear);
+                        cal.set(Calendar.MONTH, calendarCurrentMonth - 1);
+                        cal.set(Calendar.DAY_OF_MONTH, i);
+                        String key = new SimpleDateFormat("yyyy년 MM월 dd일").format(cal.getTime()) + "/check";
+                        ArrayList<Boolean> checked = m_PreferenceManager.getBoolArrayList(getActivity(), key);
+                        // 전부 true라면 dayFin에, 하나라도 false라면 dayNotFin에, 하나도 없다면 아무데도 추가 X
+                        if (!checked.isEmpty()) {
+                            Boolean allchecked = true;
+                            for (int j = 0; j < checked.size(); j++) {
+                                if (!checked.get(j)) {
+                                    allchecked = false;
+                                    break;
+                                }
+                            }
+
+                            CalendarDay element = CalendarDay.from(LocalDate.of(calendarCurrentYear, calendarCurrentMonth, i));
+                            if (allchecked)
+                                dayFin.add(element);
+                            else
+                                dayNotFin.add(element);
+                        }
+                    }
+
+                    // 점 찍어주기
+                    calendar.addDecorator(new EventDecorator(Color.GREEN, dayFin, getActivity()));
+                    calendar.addDecorator(new EventDecorator(Color.RED, dayNotFin, getActivity()));
+
+                    // 다음을 위해서 두 List 초기화
+                    dayFin.clear();
+                    dayNotFin.clear();
+                }
             }
         });
 
@@ -150,53 +218,104 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+
+        // 시간 비교
+        String str_curMonth = "";
+        if (calendarCurrentMonth < 10)
+            str_curMonth = "0" + Integer.toString(calendarCurrentMonth);
+        else
+            str_curMonth = Integer.toString(calendarCurrentMonth);
+
+        int cmp2 = Integer.parseInt(Integer.toString(calendarCurrentYear) + str_curMonth);
+        int now = Integer.parseInt(new SimpleDateFormat("yyyyMM").format(Calendar.getInstance().getTime()));
+
+        // 과거라면 업데이트
+
+        // 코드 재활용
+        // 과거의 시각인 연/월에 대해서만 값을 찍어주면 됨
+        if (now > cmp2) {
+            // dayFin, dayNotFin 채워주기
+            Calendar maxDaysCal = Calendar.getInstance();
+            maxDaysCal.set(Calendar.YEAR, calendarCurrentYear);
+            maxDaysCal.set(Calendar.MONTH, calendarCurrentMonth);
+            for (int i = 1; i <= maxDaysCal.getActualMaximum(Calendar.DAY_OF_MONTH); i++) {
+                // 캘린더 설정해주고 체크리스트 가져오기
+                Calendar cal = Calendar.getInstance();
+                cal.set(Calendar.YEAR, calendarCurrentYear);
+                cal.set(Calendar.MONTH, calendarCurrentMonth - 1);
+                cal.set(Calendar.DAY_OF_MONTH, i);
+                String key = new SimpleDateFormat("yyyy년 MM월 dd일").format(cal.getTime()) + "/check";
+                ArrayList<Boolean> checked = m_PreferenceManager.getBoolArrayList(getActivity(), key);
+                // 전부 true라면 dayFin에, 하나라도 false라면 dayNotFin에, 하나도 없다면 아무데도 추가 X
+                if (!checked.isEmpty()) {
+                    Boolean allchecked = true;
+                    for (int j = 0; j < checked.size(); j++) {
+                        if (!checked.get(j)) {
+                            allchecked = false;
+                            break;
+                        }
+                    }
+
+                    CalendarDay element = CalendarDay.from(LocalDate.of(calendarCurrentYear, calendarCurrentMonth, i));
+                    if (allchecked)
+                        dayFin.add(element);
+                    else
+                        dayNotFin.add(element);
+                }
+            }
+
+            // 점 찍어주기
+            calendar.addDecorator(new EventDecorator(Color.GREEN, dayFin, getActivity()));
+            calendar.addDecorator(new EventDecorator(Color.RED, dayNotFin, getActivity()));
+
+            // 다음을 위해서 두 List 초기화
+            dayFin.clear();
+            dayNotFin.clear();
+        }
+
+        else if (now == cmp2) {
+            // 코드 재활용
+            for (int i = 1; i < Calendar.getInstance().get(Calendar.DAY_OF_MONTH); i++) {
+                // 캘린더 설정해주고 체크리스트 가져오기
+                Calendar cal = Calendar.getInstance();
+                cal.set(Calendar.YEAR, calendarCurrentYear);
+                cal.set(Calendar.MONTH, calendarCurrentMonth - 1);
+                cal.set(Calendar.DAY_OF_MONTH, i);
+                String key = new SimpleDateFormat("yyyy년 MM월 dd일").format(cal.getTime()) + "/check";
+                ArrayList<Boolean> checked = m_PreferenceManager.getBoolArrayList(getActivity(), key);
+                // 전부 true라면 dayFin에, 하나라도 false라면 dayNotFin에, 하나도 없다면 아무데도 추가 X
+                if (!checked.isEmpty()) {
+                    Boolean allchecked = true;
+                    for (int j = 0; j < checked.size(); j++) {
+                        if (!checked.get(j)) {
+                            allchecked = false;
+                            break;
+                        }
+                    }
+
+                    CalendarDay element = CalendarDay.from(LocalDate.of(calendarCurrentYear, calendarCurrentMonth, i));
+                    if (allchecked)
+                        dayFin.add(element);
+                    else
+                        dayNotFin.add(element);
+                }
+            }
+
+            // 점 찍기
+            calendar.addDecorator(new EventDecorator(Color.GREEN, dayFin, getActivity()));
+            calendar.addDecorator(new EventDecorator(Color.RED, dayNotFin, getActivity()));
+
+            // dayFin, dayNotFin 초기화
+            dayFin.clear();
+            dayNotFin.clear();
+        }
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
-    }
-
-    // 빨간 점 찍어주는 CLASS
-    private class DotMaker extends AsyncTask<Void, Void, List<CalendarDay>> {
-
-        ArrayList<String> Time_Result;
-        int color;
-
-        DotMaker(ArrayList<String> Time_Result, int color){
-            this.Time_Result = Time_Result;
-            this.color = color;
-        }
-
-        @Override
-        protected List<CalendarDay> doInBackground(@NonNull Void... voids) {
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            Calendar calendar = Calendar.getInstance();
-            ArrayList<CalendarDay> dates = new ArrayList<>();
-
-            /*특정날짜 달력에 점표시해주는곳*/
-            /*월은 0이 1월 년,일은 그대로*/
-            //string 문자열인 Time_Result 을 받아와서 ,를 기준으로짜르고 string을 int 로 변환
-            for(int i = 0 ; i < Time_Result.size(); i ++){
-                String[] time = Time_Result.get(i).split(",");
-                int year = Integer.parseInt(time[0]);
-                int month = Integer.parseInt(time[1]);
-                int dayy = Integer.parseInt(time[2]);
-
-                CalendarDay day = CalendarDay.from(LocalDate.of(year, month, dayy));
-                dates.add(day);
-            }
-
-            return dates;
-        }
-
-        @Override
-        protected void onPostExecute(@NonNull List<CalendarDay> calendarDays) {
-            super.onPostExecute(calendarDays);
-            calendar.addDecorator(new EventDecorator(color, calendarDays, getActivity()));
-        }
     }
 }

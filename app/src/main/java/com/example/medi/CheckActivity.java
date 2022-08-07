@@ -2,6 +2,7 @@ package com.example.medi;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Paint;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.app.AlertDialog;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class CheckActivity extends AppCompatActivity {
 
@@ -22,6 +24,9 @@ public class CheckActivity extends AppCompatActivity {
     private Button btn_check_add;
     private LinearLayout layout_check_checklist;
     private boolean first_execute = true;
+    private Integer YEAR;
+    private Integer MONTH;
+    private Integer DAY;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +42,11 @@ public class CheckActivity extends AppCompatActivity {
         Intent inIntent = getIntent();
         String today = inIntent.getStringExtra("selected_date");
         text_check_date.setText(today);
+
+        // YEAR, MONTH, DAY 할당
+        YEAR = Integer.parseInt(today.substring(0, 4));
+        MONTH = Integer.parseInt(today.substring(6, 8));
+        DAY = Integer.parseInt(today.substring(10, 12));
 
         // 2. 약 리스트 불러오기 - first Execution 때만 실행
         if (first_execute) {
@@ -244,5 +254,16 @@ public class CheckActivity extends AppCompatActivity {
                 builder.show();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra("year", YEAR);
+        resultIntent.putExtra("month", MONTH);
+        resultIntent.putExtra("day", DAY);
+        setResult(Activity.RESULT_OK, resultIntent);
+
+        super.onBackPressed();
     }
 }
