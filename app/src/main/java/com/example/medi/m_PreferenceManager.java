@@ -21,6 +21,35 @@ public class m_PreferenceManager {
     }
 
     /**
+     * requestCode 저장
+     * @param context
+     * @param key
+     * @param value
+     */
+    public static void setRequestCode(Context context, String key, Integer value) {
+        SharedPreferences prefs = getPreferences(context);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt(key, value);
+        editor.commit();
+    }
+
+
+    /**
+     * requestCode 값 로드
+     * @param context
+     * @param key
+     * @return
+     */
+    public static Integer getRequestCode(Context context, String key) {
+        SharedPreferences prefs = getPreferences(context);
+        Integer response = prefs.getInt(key, -1);
+        if (response.equals(-1))
+            return -1;
+        return response;
+    }
+
+
+    /**
      * SimpleDateFormat 저장
      * @param context
      * @param key
@@ -34,7 +63,6 @@ public class m_PreferenceManager {
         editor.putString(key, json);
         editor.commit();
     }
-
 
 
     /**
@@ -54,38 +82,6 @@ public class m_PreferenceManager {
         return value;
     }
 
-    /**
-     * RequestCode 저장
-     * @param context
-     * @param value
-     */
-    public static void setRequestCode(Context context, Integer value) {
-        String key = "requestCode";
-        SharedPreferences prefs = getPreferences(context);
-        SharedPreferences.Editor editor = prefs.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(value);
-        editor.putString(key, json);
-        editor.commit();
-    }
-
-    /**
-     * RequestCode 값 로드
-     * @param context
-     * @return
-     */
-    public static Integer getRequestCode(Context context) {
-        String key = "requestCode";
-        SharedPreferences prefs = getPreferences(context);
-        Gson gson = new Gson();
-        String response = prefs.getString(key, DEFAULT_VALUE_STRING);
-        if (response.equals(DEFAULT_VALUE_STRING))
-            return 0;
-        Type type = new TypeToken<Integer>(){}.getType();
-        Integer value = gson.fromJson(response, type);
-        return value;
-    }
-
 
     /**
      * StringArrayList 저장
@@ -101,6 +97,7 @@ public class m_PreferenceManager {
         editor.putString(key,json);
         editor.commit();
     }
+
 
     /**
      * StringArrayList 값 로드
@@ -120,6 +117,7 @@ public class m_PreferenceManager {
         return value;
     }
 
+
     /**
      * BoolArrayList 값 저장
      * @param context
@@ -135,6 +133,7 @@ public class m_PreferenceManager {
         editor.putString(key,json);
         editor.commit();
     }
+
 
     /**
      * BoolArrayList 값 로드
@@ -155,6 +154,42 @@ public class m_PreferenceManager {
     }
 
     /**
+     * ItemList 값 저장
+     * @param context
+     * @param key
+     * @param value
+     */
+
+    public static void setItemList(Context context, String key, ArrayList<ListViewItem> value) {
+        SharedPreferences prefs = getPreferences(context);
+        SharedPreferences.Editor editor = prefs.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(value);
+        editor.putString(key, json);
+        editor.commit();
+    }
+
+
+    /**
+     * ItemList 값 로드
+     * @param context
+     * @param key
+     * @return
+     */
+
+    public static ArrayList<ListViewItem> getItemList(Context context, String key) {
+        SharedPreferences prefs = getPreferences(context);
+        Gson gson = new Gson();
+        String response = prefs.getString(key, DEFAULT_VALUE_STRING);
+        if (response.equals(DEFAULT_VALUE_STRING))
+            return new ArrayList<ListViewItem>();
+        Type type = new TypeToken<ArrayList<ListViewItem>>(){}.getType();
+        ArrayList<ListViewItem> value = gson.fromJson(response, type);
+        return value;
+    }
+
+
+    /**
      * 키 값 삭제
      * @param context
      * @param key
@@ -166,6 +201,7 @@ public class m_PreferenceManager {
         edit.remove(key);
         edit.commit();
     }
+
 
     /**
      * 모든 저장 데이터 삭제

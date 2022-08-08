@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,46 +7,35 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <TimePicker
-        android:id="@+id/alarm_timepicker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:timePickerMode="spinner" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="13"
+        android:fillViewport="true">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/alarm_text_dummy"
-        android:textSize="20sp"
-        android:textColor="@color/black"
-        android:layout_marginTop="10dp"
-        android:text="알람을 설정하시면 매일 울립니다."
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/alarm_timepicker"
-        />
+        <LinearLayout
+            android:id="@+id/layout_alarm_listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ListView
+                android:id="@+id/listview_alarm"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:choiceMode="multipleChoice" />
+        </LinearLayout>
+    </ScrollView>
 
     <Button
-        android:id="@+id/alarm_button_set"
+        android:id="@+id/btn_alarm_add"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
         android:layout_marginTop="10dp"
-        android:text="알람 설정"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/alarm_text_dummy"
-        />
+        android:layout_marginBottom="10dp"
+        android:layout_weight="1"
+        android:text="알람 추가"
+        android:textSize="15sp" />
 
-    <Button
-        android:id="@+id/alarm_button_unset"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/alarm_button_set"
-        android:text="모든 알람 해제" />
-
-</RelativeLayout>
+</LinearLayout>

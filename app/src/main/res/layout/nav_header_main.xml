@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="10dp"
-        android:text="메뉴"
+        android:text="이름 말해주세요"
         android:textSize="30sp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 </LinearLayout>
