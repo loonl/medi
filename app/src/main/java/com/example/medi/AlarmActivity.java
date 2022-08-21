@@ -52,7 +52,7 @@ public class AlarmActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // timepickerdialog 띄워서 시간 설정 가능하게 해주기
-                TimePickerDialog timePickerDialog = new TimePickerDialog(AlarmActivity.this, android.R.style.Theme_Holo_Light_Dialog,
+                TimePickerDialog timePickerDialog = new TimePickerDialog(AlarmActivity.this, TimePickerDialog.THEME_HOLO_LIGHT,
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {

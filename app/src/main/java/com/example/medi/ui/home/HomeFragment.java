@@ -26,6 +26,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.medi.CheckActivity;
 import com.example.medi.EventDecorator;
 import com.example.medi.R;
+import com.example.medi.SelectedDecorator;
 import com.example.medi.databinding.FragmentHomeBinding;
 import com.example.medi.m_PreferenceManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -73,7 +74,10 @@ public class HomeFragment extends Fragment {
         calendar = root.findViewById(R.id.main_calendar);
 
         // 캘린더 날짜 선택하면 나오는 색은 회색으로
-        calendar.setSelectionColor(Color.LTGRAY);
+        //calendar.setSelectionColor(Color.LTGRAY);
+
+        // 캘린더 날짜 선택하면 나오는 효과는 비활성화
+        calendar.addDecorators(new SelectedDecorator(getActivity()));
 
         // 캘린더 중앙에 년 / 월이 보이는 방식 변경
         calendar.setTitleFormatter(new TitleFormatter() {

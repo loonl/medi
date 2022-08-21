@@ -2,8 +2,16 @@ package com.example.medi;
 
 
 import android.app.Activity;
+import android.graphics.Color;
+import android.graphics.DashPathEffect;
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.InsetDrawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.OvalShape;
 
+import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
@@ -21,10 +29,18 @@ public class EventDecorator implements DayViewDecorator {
 
     private int color;
     private HashSet<CalendarDay> dates;
+    private GradientDrawable temp;
+    private InsetDrawable draw;
 
-    public EventDecorator(int color, Collection<CalendarDay> dates,Activity context) {
+    public EventDecorator(int color, Collection<CalendarDay> dates, Activity context) {
         this.color = color;
         this.dates = new HashSet<>(dates);
+
+        this.temp = new GradientDrawable();
+        temp.setShape(GradientDrawable.OVAL);
+        temp.setStroke(2, color);
+
+        this.draw = new InsetDrawable(temp, 5, 5, 5, 5);
     }
 
     @Override
@@ -34,6 +50,7 @@ public class EventDecorator implements DayViewDecorator {
 
     @Override
     public void decorate(DayViewFacade view) {
-        view.addSpan(new DotSpan(5, color)); // 날자밑에 점
+        view.setBackgroundDrawable(draw);
+        //view.addSpan(new DotSpan(9, color));
     }
 }
