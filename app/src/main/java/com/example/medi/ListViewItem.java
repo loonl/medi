@@ -1,7 +1,5 @@
 package com.example.medi;
 
-import android.graphics.drawable.Drawable;
-
 public class ListViewItem {
     private String productName;
     public Boolean enabled;

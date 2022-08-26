@@ -101,22 +101,25 @@ public class ListViewAdapter extends BaseAdapter {
         SWITCH.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                String temp = listViewItem.getName();
 
                 // 만약 활성화 상태라면 알림 활성화 (ON일 때)
                 if (b) {
                     PackageManager pm = context.getPackageManager();
                     ComponentName receiver = new ComponentName(context, DeviceBootReceiver.class);
                     Intent alarmIntent = new Intent(context, AlarmReceiver.class);
-                    PendingIntent pendingIntent = PendingIntent.getBroadcast(context, position, alarmIntent, PendingIntent.FLAG_MUTABLE); // 키 값은 position
+                    int code = Integer.parseInt(temp.substring(0, 2) + temp.substring(5, 7));
+                    alarmIntent.putExtra("code", code);
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(context, code, alarmIntent, PendingIntent.FLAG_MUTABLE); // 키 값은 position
                     AlarmManager alarmManager = (AlarmManager) (context.getSystemService(Context.ALARM_SERVICE));
 
                     // preference 업데이트
-                    m_PreferenceManager.setRequestCode(context, listViewItem.getName(), position);
+                    m_PreferenceManager.setRequestCode(context, listViewItem.getName(), code);
 
                     // hour, minute 추출해서 calendar로 변환
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTimeInMillis(System.currentTimeMillis());
-                    String temp = listViewItem.getName();
+
                     calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(temp.substring(0, 2)));
                     calendar.set(Calendar.MINUTE, Integer.parseInt(temp.substring(5, 7)));
                     calendar.set(Calendar.SECOND, 0);
@@ -128,10 +131,12 @@ public class ListViewAdapter extends BaseAdapter {
 
                     // 반복 설정
                     if (alarmManager != null) {
-                        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                                AlarmManager.INTERVAL_DAY, pendingIntent);
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
                             alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+                        else {
+                            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                                    AlarmManager.INTERVAL_DAY, pendingIntent);
+                        }
                     }
 
                     // 부팅 후 실행되는 리시버 사용가능하게 설정

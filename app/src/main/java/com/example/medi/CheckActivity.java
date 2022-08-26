@@ -16,7 +16,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.app.AlertDialog;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class CheckActivity extends AppCompatActivity {
 
