@@ -31,9 +31,9 @@ public class AlarmReceiver extends BroadcastReceiver {
         //OREO API 26 이상에서는 채널 필요
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
 
-            builder.setSmallIcon(R.drawable.faq); //mipmap 사용시 Oreo 이상에서 시스템 UI 에러남
-            String channelName ="매일 알람 채널";
-            String description = "매일 정해진 시간에 알람합니다.";
+            builder.setSmallIcon(R.drawable.icon_noti); //mipmap 사용시 Oreo 이상에서 시스템 UI 에러남
+            String channelName ="AlarmChannel";
+            String description = "Always Rings at certain time";
             int importance = NotificationManager.IMPORTANCE_HIGH; //소리와 알림메시지를 같이 보여줌
 
             NotificationChannel channel = new NotificationChannel("default", channelName, importance);
@@ -43,7 +43,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                 // 노티피케이션 채널을 시스템에 등록
                 notificationManager.createNotificationChannel(channel);
             }
-        }else builder.setSmallIcon(R.drawable.faq); // Oreo 이하에서 mipmap 사용하지 않으면 Couldn't create icon: StatusBarIcon 에러남
+        }else builder.setSmallIcon(R.drawable.icon_noti); // Oreo 이하에서 mipmap 사용하지 않으면 Couldn't create icon: StatusBarIcon 에러남
 
 
         builder.setAutoCancel(true)

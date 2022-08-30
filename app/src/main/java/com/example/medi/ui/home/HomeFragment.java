@@ -119,7 +119,7 @@ public class HomeFragment extends Fragment {
         }
 
         // 점 찍기
-        calendar.addDecorator(new EventDecorator(Color.GREEN, dayFin, getActivity()));
+        calendar.addDecorator(new EventDecorator(Color.rgb(0, 51, 153), dayFin, getActivity()));
         calendar.addDecorator(new EventDecorator(Color.RED, dayNotFin, getActivity()));
 
         // 밑에서도 써야 해서 미리 clear
@@ -195,7 +195,7 @@ public class HomeFragment extends Fragment {
                     }
 
                     // 점 찍어주기
-                    calendar.addDecorator(new EventDecorator(Color.GREEN, dayFin, getActivity()));
+                    calendar.addDecorator(new EventDecorator(Color.rgb(0, 51, 153), dayFin, getActivity()));
                     calendar.addDecorator(new EventDecorator(Color.RED, dayNotFin, getActivity()));
 
                     // 다음을 위해서 두 List 초기화
@@ -265,7 +265,7 @@ public class HomeFragment extends Fragment {
             }
 
             // 점 찍어주기
-            calendar.addDecorator(new EventDecorator(Color.GREEN, dayFin, getActivity()));
+            calendar.addDecorator(new EventDecorator(Color.rgb(0, 51, 153), dayFin, getActivity()));
             calendar.addDecorator(new EventDecorator(Color.RED, dayNotFin, getActivity()));
 
             // 다음을 위해서 두 List 초기화
@@ -302,7 +302,7 @@ public class HomeFragment extends Fragment {
             }
 
             // 점 찍기
-            calendar.addDecorator(new EventDecorator(Color.GREEN, dayFin, getActivity()));
+            calendar.addDecorator(new EventDecorator(Color.rgb(0, 51, 153), dayFin, getActivity()));
             calendar.addDecorator(new EventDecorator(Color.RED, dayNotFin, getActivity()));
 
             // dayFin, dayNotFin 초기화
