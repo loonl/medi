@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_addmany:
                 // AddActivity로 이동
-                Intent intent = new Intent(getApplicationContext(), AddActivity.class);
+                Intent intent = new Intent(getApplicationContext(), PresetActivity.class);
                 startActivity(intent);
                 return true;
 

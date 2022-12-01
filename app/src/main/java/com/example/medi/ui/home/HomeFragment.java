@@ -1,12 +1,9 @@
 package com.example.medi.ui.home;
 
-import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -59,6 +57,25 @@ public class HomeFragment extends Fragment {
             fab.show();
         } catch (Exception e) {
         }
+
+        // 처음 설치하고 실행했을 시 해당 내용 고지
+        Boolean isFirst = m_PreferenceManager.getFirstNotice(getActivity());
+        if (isFirst) {
+            AlertDialog.Builder adg = new AlertDialog.Builder(getActivity());
+            adg.setTitle("어플 안내").setMessage("해당 어플은 전문의약품 에스리시정을 처방 받은 환자의 " +
+                    "복용 순응도를 높이기 위해 제작되었습니다. 의사의 진료 및 약사의 복약 지도를 대신 하지 않으며, "
+            + "질병의 진단 및 치료에 관한 정확하고 자세한 사항은 담당 의사 선생님께 문의하십시오.");
+            adg.setPositiveButton("네, 확인했습니다.", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    m_PreferenceManager.setFirstNotice(getActivity(), false);
+                }
+            });
+
+            adg.show();
+        }
+
+
 
         // 현재 calendar 가 보내는 것들을 설정
         calendarCurrentMonth = Calendar.getInstance().get(Calendar.MONTH) + 1;

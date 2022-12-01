@@ -7,9 +7,14 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_addmany">약 일괄 추가</string>
 
+    <string name="drawer_name">에스리시정 복용 알리미</string>
+    <string name="drawer_check">알림 설정</string>
+    <string name="drawer_productinfo">제품 정보</string>
+    <string name="drawer_faq">자주 묻는 질문과 답변</string>
+
     <string name="menu_home">복용상태 체크</string>
-    <string name="menu_gallery">약품 정보</string>
-    <string name="menu_slideshow">FAQ</string>
+    <string name="menu_gallery">제품 정보</string>
+    <string name="menu_slideshow">자주 묻는 질문과 답변</string>
     <string name="title_activity_check">CheckActivity</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>

@@ -16,11 +16,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/text_date"
@@ -31,7 +27,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="30dp"
         android:text="날짜 소개"
-        android:textColor="#FF000000"
+        android:textColor="?android:textColorPrimary"
         android:textSize="30dp" />
 
     <ScrollView

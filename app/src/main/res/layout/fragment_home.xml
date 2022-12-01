@@ -27,5 +27,6 @@
         android:layout_centerHorizontal="true"
         android:paddingLeft="15dp"
         android:paddingTop="20dp"
-        android:paddingRight="15dp" />
+        android:paddingRight="15dp"
+        app:mcv_dateTextAppearance="@style/MaterialCalendar" />
 </RelativeLayout>

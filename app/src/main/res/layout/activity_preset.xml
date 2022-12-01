@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:rowCount="2"
+    android:columnCount="2"
+    android:layout_marginStart="20dp"
+    android:orientation="vertical">
+
+
+    <ImageView
+        android:id="@+id/img_preset_medi1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/medi1"/>
+
+
+    <ImageView
+        android:id="@+id/img_preset_medi2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/medi2" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="에스리시정 복용 설정"
+        android:textSize="15sp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="기타 의약품 복용 설정"
+        android:textSize="15sp"/>
+
+</GridLayout>

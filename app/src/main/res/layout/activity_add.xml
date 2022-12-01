@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".AddActivity">
 
-
     <LinearLayout
         android:id="@+id/layout_add_1"
         android:layout_width="match_parent"
@@ -23,7 +22,7 @@
             android:layout_weight="4"
             android:gravity="center_horizontal"
             android:text="시작 날짜 :"
-            android:textColor="@color/black"
+            android:textColor="?android:textColorPrimary"
             android:textSize="20sp" />
 
         <TextView
@@ -32,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="6"
             android:gravity="center_horizontal"
-            android:textColor="@color/black"
+            android:textColor="?android:textColorPrimary"
             android:textSize="20sp" />
 
         <Button
@@ -60,7 +59,7 @@
             android:layout_weight="4"
             android:gravity="center_horizontal"
             android:text="마지막 날짜 :"
-            android:textColor="@color/black"
+            android:textColor="?android:textColorPrimary"
             android:textSize="20sp" />
 
         <TextView
@@ -69,7 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="6"
             android:gravity="center_horizontal"
-            android:textColor="@color/black"
+            android:textColor="?android:textColorPrimary"
             android:textSize="20sp" />
 
         <Button
@@ -97,7 +96,7 @@
             android:layout_weight="4"
             android:gravity="center_horizontal"
             android:text="간격(일) :"
-            android:textColor="@color/black"
+            android:textColor="?android:textColorPrimary"
             android:textSize="20sp" />
 
         <EditText
@@ -107,7 +106,7 @@
             android:layout_weight="6"
             android:gravity="center_horizontal"
             android:inputType="numberDecimal"
-            android:textColor="@color/black"
+            android:textColor="?android:textColorPrimary"
             android:textSize="20sp" />
 
         <TextView
@@ -133,7 +132,7 @@
             android:layout_weight="4"
             android:gravity="center_horizontal"
             android:text="약 이름 :"
-            android:textColor="@color/black"
+            android:textColor="?android:textColorPrimary"
             android:textSize="20sp" />
 
         <EditText
@@ -142,7 +141,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="6"
             android:gravity="center_horizontal"
-            android:textColor="@color/black"
+            android:textColor="?android:textColorPrimary"
             android:textSize="20sp" />
 
         <TextView

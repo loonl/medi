@@ -1,6 +1,8 @@
 package com.example.medi;
 
 import android.app.DatePickerDialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,9 +14,11 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 public class AddActivity extends AppCompatActivity {
     private Button btnStartDate;
@@ -29,7 +33,10 @@ public class AddActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
+
+        // title bar 설정
         setTitle("약 추가");
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#3454B7")));
 
         // 버튼과 text, edittext 바인딩
         btnStartDate = findViewById(R.id.btn_add_startdate);
@@ -39,6 +46,28 @@ public class AddActivity extends AppCompatActivity {
         textEndDate = findViewById(R.id.text_add_enddate);
         etInterval = findViewById(R.id.et_add_interval);
         etMediName = findViewById(R.id.et_add_mediname);
+
+        // code로 preset 확인
+        int presetCode = getIntent().getIntExtra("code", -1);
+        if (presetCode == 1) {
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(new Date());
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일");
+
+            // 시작일 설정 - preset : 오늘
+            textStartDate.setText(sdf.format(cal.getTime()));
+
+            cal.add(Calendar.YEAR, 1);
+
+            // 종료일 설정 - preset : 1년
+            textEndDate.setText(sdf.format(cal.getTime()));
+
+            // 간격 설정 - preset : 1일
+            etInterval.setText("1");
+
+            // 약 이름 설정 - preset : 에스리시정
+            etMediName.setText("에스리시정");
+        }
 
         // 시작 날짜 관련 설정
         btnStartDate.setOnClickListener(new View.OnClickListener() {

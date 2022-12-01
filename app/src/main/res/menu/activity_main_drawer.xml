@@ -6,12 +6,12 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:title="복용상태 체크" />
+            android:title="@string/drawer_check" />
         <item
             android:id="@+id/nav_gallery"
-            android:title="약품 정보" />
+            android:title="@string/drawer_productinfo" />
         <item
             android:id="@+id/nav_slideshow"
-            android:title="자주 묻는 질문" />
+            android:title="@string/drawer_faq" />
     </group>
 </menu>

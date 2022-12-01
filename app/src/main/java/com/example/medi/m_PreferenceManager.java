@@ -19,6 +19,31 @@ public class m_PreferenceManager {
         return context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
     }
 
+
+    /**
+     * firstNotice 저장
+     * @param context
+     * @param value
+     */
+    public static void setFirstNotice(Context context, Boolean value) {
+        SharedPreferences prefs = getPreferences(context);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("firstNotice", value);
+        editor.commit();
+    }
+
+    /**
+     * firstNotice 값 로드
+     * @param context
+     * @return
+     */
+    public static Boolean getFirstNotice(Context context) {
+        SharedPreferences prefs = getPreferences(context);
+        Boolean response = prefs.getBoolean("firstNotice", true);
+        return response;
+    }
+
+
     /**
      * requestCode 저장
      * @param context
