@@ -1,7 +1,7 @@
 # Medi
 
 ## Project Description
-This project is a simple application. Two people participated in this project for three months. (Jun. 2022 ~ Aug. 2022) However as you can see the record of commits, it was mainly developed by one person. This app is used in Gwangdong pharmaceutical, especially targeting clients taking particular medications.
+This project is a simple Android application. Two people participated in this project for three months. (Jun. 2022 ~ Aug. 2022) However as you can see the record of commits, it was mainly developed by one person. This app is used in Gwangdong pharmaceutical, especially targeting clients taking particular medications.
 Please read App Description below for specific functions about this application.
 
 ## App Description
