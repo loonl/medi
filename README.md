@@ -48,9 +48,11 @@ Please refer to this [link](https://drive.google.com/u/0/uc?id=17kcr1AKf-g_wld12
 
 ## Screenshots
 - Main Screen
-<img src="https://i.imgur.com/Zgq9d3A.png"  width="200" height="400"/> <img src="https://i.imgur.com/36ngpht.png"  width="200" height="400"/>
+<img src="https://i.imgur.com/Zgq9d3A.png"  width="200" height="400"/> 
+<img src="https://i.imgur.com/36ngpht.png"  width="200" height="400"/>
 - Product Info & FAQ Screen
-<img src="https://i.imgur.com/KQ6ktPN.png"  width="200" height="400"/> <img src="https://i.imgur.com/vOAlOog.png"  width="200" height="400"/>
+<img src="https://i.imgur.com/KQ6ktPN.png"  width="200" height="400"/> 
+<img src="https://i.imgur.com/vOAlOog.png"  width="200" height="400"/>
 - Preset Screen
 <img src="https://i.imgur.com/u3reZNB.png"  width="200" height="400"/>
 - Check Screen
