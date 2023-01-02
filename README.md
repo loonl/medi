@@ -48,16 +48,14 @@ Please refer to this [link](https://drive.google.com/u/0/uc?id=17kcr1AKf-g_wld12
 
 ## Screenshots
 - Main Screen
-![](https://i.imgur.com/Zgq9d3A.png)
-![](https://i.imgur.com/36ngpht.png)
+<img src="https://i.imgur.com/Zgq9d3A.png"  width="200" height="400"/> <img src="https://i.imgur.com/36ngpht.png"  width="200" height="400"/>
 - Product Info & FAQ Screen
-![](https://i.imgur.com/KQ6ktPN.png)
-![](https://i.imgur.com/vOAlOog.png)
+<img src="https://i.imgur.com/KQ6ktPN.png"  width="200" height="400"/> <img src="https://i.imgur.com/vOAlOog.png"  width="200" height="400"/>
 - Preset Screen
-![](https://i.imgur.com/u3reZNB.png)
+<img src="https://i.imgur.com/u3reZNB.png"  width="200" height="400"/>
 - Check Screen
-![](https://i.imgur.com/DmBb0Eb.png)
+<img src="https://i.imgur.com/DmBb0Eb.png"  width="200" height="400"/>
 - Add Screen
-![](https://i.imgur.com/nc6H4Fp.png)
+<img src="https://i.imgur.com/nc6H4Fp.png"  width="200" height="400"/>
 - Alarm Screen
-![](https://i.imgur.com/qpgepni.png)
+<img src="https://i.imgur.com/qpgepni.png"  width="200" height="400"/>
